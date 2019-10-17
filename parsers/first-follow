@@ -1,3 +1,4 @@
+Basic Algorithm for Parser First and Follow Set Calculations.
 
 followSets = {}
 updated is false
@@ -10,7 +11,7 @@ repeat
 
 		let leftsymbol be ls
 
-		let updateEpsilon be false
+		let updateEpsilon be true
 
 		in p, for each right symbol rs
 
@@ -18,10 +19,11 @@ repeat
 
 			if firstSets[ls] has changed set updated to true
 
-			if rs is not in epsilon ( which means we have our first set item ) 
-			then set updateEpsilon to true and break out of loop
-
-		if updateEpsilon is true, it means that their was an epsilon symbol in the previous loop
+			if rs is not in epsilon
+				set updateEpsilon to false and break out of loop
+		
+		if updateEpsilon is true, which means that a rs symbol was in the epsilon set, 
+			add ls to epsilon set and set updated to true if epsilon set has changed
 
 
 		follow set calculation
@@ -39,9 +41,10 @@ repeat
 		    concat the follow set for lhs with the first set for symbols rs, set updated to true if we add something new
 
 		else set aux to be the first set for symbol rs
-
+		
+		if updated is false, return firstSets, followSets, epsilon and exit
 
 	end production loop
 
-while updated is true
+end repeat
 
