@@ -1,39 +1,47 @@
 
 followSets = {}
+updated is false
 
-in grammar g, for each production p
-	
-	let leftsymbol be ls
-	
-	let updateEpsilon be false
+repeat
 
-	in p, for each right symbol rs
-		
-		is updated ? firstSets[ls] = firstSets[rs] U firstSets[ls]
+	in grammar g, for each production p
 
-		if rs is not in epsilon ( means we have our first set item ) then set updateEpsilon to true and break out of loop
+		first set calculation
+
+		let leftsymbol be ls
+
+		let updateEpsilon be false
+
+		in p, for each right symbol rs
+
+			firstSets[ls] = firstSets[rs] U firstSets[ls]
+
+			if firstSets[ls] has changed set updated to true
+
+			if rs is not in epsilon ( which means we have our first set item ) 
+			then set updateEpsilon to true and break out of loop
 
 		if updateEpsilon is true, it means that their was an epsilon symbol in the previous loop
-	
 
-	let aux be followsSets[ls] - so assign the follow set for the current lhs to aux
 
-	in reversed p, for each right symbol rs
-        
-        if there is a follow set for symbol rs
+		follow set calculation
 
-            concat the follow set for rs with the follow set for ls, mark updated as true if we add something
+		let aux be followsSets[ls] - assign the follow set for the current lhs to aux
 
-        if the symbol rs is in epsilon
+		in reversed p, for each right symbol rs - reverse the production, so we start at end
 
-            concat the follow set for lhs with the first set for symbols rs
-        
-        else set aux to be the first set for symbol rs
+		if there is a follow set for symbol rs
 
-            
+		    concat the follow set for rs with the follow set for ls, set updated as true if we add something new
 
-	
-	end loop
+		if the symbol rs is in epsilon
 
-end loop
-		 
+		    concat the follow set for lhs with the first set for symbols rs, set updated to true if we add something new
+
+		else set aux to be the first set for symbol rs
+
+
+	end production loop
+
+while updated is true
+
