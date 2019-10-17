@@ -1,6 +1,9 @@
 Basic Algorithm for Parser First and Follow Set Calculations.
 
-followSets = {}
+followSets = { initialize with key for each lhs )
+firstSets = { initialize with key for each lhs )
+update first sets so that each terminal contains itself as its first set
+epsilon = {}
 updated is false
 
 repeat
